@@ -9,6 +9,8 @@ public class Runner {
         return Double.parseDouble(rawPoint.substring(rawPoint.indexOf(",") + 1, rawPoint.indexOf(")")));
     }
 
+    
+
     public static void main(String[] args) {
         Scanner scn = new Scanner(System.in);
 
@@ -33,5 +35,6 @@ public class Runner {
             System.out.println(e);
         }
 
+        System.out.println();
     }
 }
