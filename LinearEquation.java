@@ -1,9 +1,11 @@
 public class LinearEquation {
     /* Instance Variables */
-    private int x1;
-    private int y1;
-    private int x2;
-    private int y2;
+    private double x1;
+    private double y1;
+    private double x2;
+    private double y2;
+    private double xDelta = x2 - x1;
+    private double yDelta = y2 - y1;
 
     /* Creates a LinearEquation object */
     /*
@@ -25,6 +27,7 @@ public class LinearEquation {
      * (x2, y2), rounded to the nearest hundredth
      */
     public double yIntercept() {
+        return x1 * slope() - y1;
     }
 
     /*
@@ -66,6 +69,7 @@ public class LinearEquation {
      * subtraction!
      */
     public String equation() {
+        return "y = " + yDelta / gcf();
     }
 
     /*
@@ -75,6 +79,7 @@ public class LinearEquation {
      * 6.75)
      */
     public String coordinateForX(double xValue) {
+        return "(" + xValue + ", " + (xValue * slope() + yIntercept()) + ")";
     }
 
     /*
@@ -85,6 +90,22 @@ public class LinearEquation {
      * HINT: the Math.round method can help with this!
      */
     public double roundedToHundredth(double toRound) {
+        return Math.round(toRound) * 100;
+    }
+
+    public int gcf() {
+        if ((y2 - y1) <= 0 || (x2 - x1) <= 0) {
+            return 0;
+        }
+
+        int absH = Math.max((int) Math.abs(xDelta), (int) Math.abs(yDelta));
+        int absL = Math.min((int) Math.abs(xDelta), (int) Math.abs(yDelta));
+        int lcm = absH;
+        while (lcm % absL != 0) {
+            lcm += absH;
+        }
+
+        return (absH * absL) / lcm;
     }
 
     /*
@@ -103,5 +124,11 @@ public class LinearEquation {
      * 
      */
     public String lineInfo() {
+        String str =
+        "The two points are: (" + x1 + ", " + y1 + ") and (" + x2 + ", " + y2 + ")\n" + //
+        "The slope of this line is: " + slope() + "\n" + //
+        "The y-intercept of the line is: " + yIntercept() + "\n" + //
+        "The distance between the two points is: " + distance(); //
+        return str;
     }
 }
