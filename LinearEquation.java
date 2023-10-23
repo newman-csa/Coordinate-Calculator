@@ -34,7 +34,7 @@ public class LinearEquation {
      * @param y1 - the y-value of the first point.
      * @param x2 - the x-value of the second point.
      * @param y2 - the y-value of the second point.
-     *           TODO: Make this throw exception if x1 == x2
+     * TODO: Make this throw exception if x1 == x2
      */
     public LinearEquation(int x1, int y1, int x2, int y2) {
         this.x1 = x1;
@@ -104,7 +104,7 @@ public class LinearEquation {
      * "y = 3x + 1.5".
      * 
      * <p>
-     * Case 1: returns horizontal line
+     * Case 1: returns horizontal line (e.g. y = 3)
      * <p/>
      * <p>
      * Case 2: returns slope is "x" or "-x" (e.g. y = -x + 3)
