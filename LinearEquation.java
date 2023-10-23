@@ -102,17 +102,38 @@ public class LinearEquation {
      * Returns a String that represents the linear equation of the line through
      * points (x1, y1) and (x2, y2) in slope-intercept (y = mx + b) form, e.g.
      * "y = 3x + 1.5".
-     * TODO: This
      * 
-     * @return
+     * <p>
+     * Case 1: returns horizontal line
+     * <p/>
+     * <p>
+     * Case 2: returns slope is "x" or "-x" (e.g. y = -x + 3)
+     * <p/>
+     * <p>
+     * Case 3: returns whole number slope (e.g. y = 3x - 9)
+     * <p/>
+     * <p>
+     * Case 4: returns fractional slope in simplified form( e.g. y = 1/2x + 1.5)
+     * <p/>
+     * 
+     * @return a string; the linear equation of the two points
      */
     public String equation() {
         String str = "y = ";
-        if (yDelta == 0) {
+        if (yDelta == 0) { // If line is horizontal
             return str + formatAsInt.format(y1);
+        } else if (Math.abs(xDelta) == Math.abs(yDelta)) { // If slope is x or -x
+            str += (slope() < 0) ? "-" : "";
+            str += "x ";
+        } else if (Math.abs(xDelta) == gcf()) { // If slope is integer number
+            str += formatAsInt.format(yDelta / xDelta) + "x ";
+        } else { // If slope is fraction
+            str += (slope() < 0) ? "-" : "";
+            str += formatAsInt.format(Math.abs(yDelta / gcf())) + "/" + formatAsInt.format(Math.abs(xDelta / gcf()))
+                    + "x ";
+
         }
-        str += (slope() < 0) ? "-" : "";
-        str += formatAsInt.format(Math.abs(yDelta / gcf())) + "/" + formatAsInt.format(Math.abs(xDelta / gcf())) + "x ";
+        // y-intercept if not horizontal
         str += (yIntercept() == 0) ? "" : (yIntercept() < 0) ? "- " + Math.abs(yIntercept()) : "+ " + yIntercept();
         return str;
     }
