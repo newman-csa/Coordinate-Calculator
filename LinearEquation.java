@@ -34,16 +34,19 @@ public class LinearEquation {
      * @param y1 - the y-value of the first point.
      * @param x2 - the x-value of the second point.
      * @param y2 - the y-value of the second point.
-     * TODO: Make this throw exception if x1 == x2
+     * @throws ArithmeticException - A linear equation is undefined if x1 == x2
      */
-    public LinearEquation(int x1, int y1, int x2, int y2) {
+    public LinearEquation(int x1, int y1, int x2, int y2)
+            throws ArithmeticException {
+        if (x1 == x2) {
+            throw new ArithmeticException("Undefined - x1 must not equal x2");
+        }
         this.x1 = x1;
         this.y1 = y1;
         this.x2 = x2;
         this.y2 = y2;
         xDelta = x2 - x1;
         yDelta = y2 - y1;
-        // TODO: Make this throw exception if x1 == x2
     }
 
     /**
@@ -58,8 +61,13 @@ public class LinearEquation {
      * @param y1 - the y-value of the first point.
      * @param x2 - the x-value of the second point.
      * @param y2 - the y-value of the second point.
+     * @throws ArithmeticException - A linear equation is undefined if x1 == x2
      */
-    public LinearEquation(double x1, double y1, double x2, double y2) {
+    public LinearEquation(double x1, double y1, double x2, double y2)
+        throws ArithmeticException {
+        if (x1 == x2) {
+            throw new ArithmeticException("Undefined - x1 must not equal x2");
+        }
         this.x1 = x1;
         this.y1 = y1;
         this.x2 = x2;
