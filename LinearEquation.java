@@ -1,6 +1,17 @@
 import java.text.DecimalFormat;
 
+/**
+ * A class dealing with attributes pertaining to the linear equation of two
+ * points.
+ * 
+ * @author Logan Newman
+ */
 public class LinearEquation {
+    /*
+     * Format: Cut trailing zeros
+     * 2.30 → 2.3
+     * 23.0 → 2
+     */
     DecimalFormat formatAsInt = new DecimalFormat("0.#");
 
     /* Instance Variables */
@@ -11,12 +22,42 @@ public class LinearEquation {
     private double xDelta;
     private double yDelta;
 
-    /* Creates a LinearEquation object */
-    /*
-     * PRECONDITION: x1 and x2 are NOT equal (client programs are responsible for
-     * ensuring
-     * this precondition is not violated)
-     * public LinearEquation(int x1, int y1, int x2, int y2)
+    /**
+     * Creates a LinearEquation object.
+     * 
+     * <p>
+     * PRECONDITION: x1 and x2 are NOT equal. (Client programs are responsible for
+     * ensuring this precondition is not violated.)
+     * <p\>
+     * 
+     * @param x1 - the x-value of the first point.
+     * @param y1 - the y-value of the first point.
+     * @param x2 - the x-value of the second point.
+     * @param y2 - the y-value of the second point.
+     *           TODO: Make this throw exception if x1 == x2
+     */
+    public LinearEquation(int x1, int y1, int x2, int y2) {
+        this.x1 = x1;
+        this.y1 = y1;
+        this.x2 = x2;
+        this.y2 = y2;
+        xDelta = x2 - x1;
+        yDelta = y2 - y1;
+        // TODO: Make this throw exception if x1 == x2
+    }
+
+    /**
+     * Creates a LinearEquation object.
+     * 
+     * <p>
+     * PRECONDITION: x1 and x2 are NOT equal. (Client programs are responsible for
+     * ensuring this precondition is not violated.)
+     * <p\>
+     * 
+     * @param x1 - the x-value of the first point.
+     * @param y1 - the y-value of the first point.
+     * @param x2 - the x-value of the second point.
+     * @param y2 - the y-value of the second point.
      */
     public LinearEquation(double x1, double y1, double x2, double y2) {
         this.x1 = x1;
@@ -27,35 +68,43 @@ public class LinearEquation {
         yDelta = y2 - y1;
     }
 
-    /*
+    /**
      * Calculates and returns distance between (x1, y1) and (x2, y2), rounded to
-     * the nearest hundredth
+     * the nearest hundredth.
+     * 
+     * @return a double; the distance between two points.
      */
     public double distance() {
         return roundedToHundredth(Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)));
     }
 
-    /*
+    /**
      * Calculates and returns the y-intercept of the line between (x1, y1) and
-     * (x2, y2), rounded to the nearest hundredth
+     * (x2, y2), rounded to the nearest hundredth.
+     * 
+     * @return a double; the y-intercept of the linear equation.
      */
     public double yIntercept() {
         return roundedToHundredth(y1 - x1 * slope());
     }
 
-    /*
+    /**
      * Calculates and returns the slope of the line between (x1, y1) and
-     * (x2, y2), rounded to the nearest hundredth
+     * (x2, y2), rounded to the nearest hundredth.
+     * 
+     * @return a double; the slope of two points.
      */
     public double slope() {
         return roundedToHundredth(yDelta / xDelta);
     }
 
-    /*
+    /**
      * Returns a String that represents the linear equation of the line through
-     * points
-     * (x1, y1) and (x2, y2) in slope-intercept (y = mx + b) form, e.g.
+     * points (x1, y1) and (x2, y2) in slope-intercept (y = mx + b) form, e.g.
      * "y = 3x + 1.5".
+     * TODO: This
+     * 
+     * @return
      */
     public String equation() {
         String str = "y = ";
@@ -68,11 +117,13 @@ public class LinearEquation {
         return str;
     }
 
-    /*
+    /**
      * Returns a String of the coordinate point on the line that has the given x
-     * value, with
-     * both x and y coordinates as decimals to the nearest hundredth, e.g (-5.0,
-     * 6.75)
+     * value, with both x and y coordinates as decimals to the nearest hundredth,
+     * e.g (-5.0, 6.75).
+     * 
+     * @param xValue - the x-value of the y-value you want.
+     * @return a double; corresponding y-value of xValue.
      */
     public String coordinateForX(double xValue) {
         return "(" + formatAsInt.format(roundedToHundredth(xValue)) + ", " + //
@@ -83,28 +134,38 @@ public class LinearEquation {
         return Math.round(toRound * 100.0) / 100.0;
     }
 
+    /**
+     * Finds the greatest common factor of Delta-y and Delta-x.
+     * 
+     * <p>
+     * Special Case: If (xDelta % 1 != 0 || yDelta % 1 != 0): return 1,
+     * the value given is not integer.
+     * <p\>
+     * 
+     * @return an integer, the gcf of delta-x and delta-y.
+     */
     public int gcf() {
-        if (xDelta == 0 || yDelta == 0) {
-            return 1;
-        } else if (xDelta % 1 != 0 || yDelta % 1 != 0) {
+        if (xDelta % 1 != 0 || yDelta % 1 != 0) {
             return 1;
         }
-
         // absH = Absolute Value of Highest Number
         // absL = Absolute Value of Lowest Number
         int absH = Math.max((int) Math.abs(xDelta), (int) Math.abs(yDelta));
         int absL = Math.min((int) Math.abs(xDelta), (int) Math.abs(yDelta));
         int lcm = absH;
+        // Finds the lcm of xDelta and yDelta
         while (lcm % absL != 0) {
             lcm += absH;
         }
-
+        // * gcf = (a × b)/ LCM (a, b)
         return (absH * absL) / lcm;
     }
 
-    /*
+    /**
      * Returns a string that includes all information about the linear equation,
-     * each on separate lines:
+     * each on separate lines.
+     * 
+     * @return a string; all the information about the line in a formatted message.
      */
     public String lineInfo() {
         String str = "The two points are: (" + formatAsInt.format(x1) + ", " + formatAsInt.format(y1) + ") and (" + //
